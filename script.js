@@ -6,6 +6,12 @@ const score = document.getElementById("score");
 const highScoreText = document.getElementById("highScore");
 const message = document.getElementById("message");
 
+
+//Define sound effects 
+const eat = new Audio("/aud/item-get.mp3");
+const song = new Audio("/aud/dearly-beloved.mp3");
+song.play();
+const gameStartSound = new Audio("/aud/game-start.mp3");
 // Define game variables
 const gridSize = 20;
 let snake = [{ x: 10, y: 10 }];
@@ -112,12 +118,13 @@ function startGame() {
   gameStarted = true; // Keep track of a running game
   instructionText.style.display = "none";
   logo.style.display = "none";
+  gameStartSound.play();
   gameInterval = setInterval(() => {
     move();
     checkCollision();
     draw();
   }, gameSpeedDelay);
-  updateMessage('startGame', currentScore);
+  updateMessage('startGame');
 }
 
 // Keypress event listener
@@ -182,13 +189,23 @@ function resetGame() {
   direction = "right";
   gameSpeedDelay = 200;
   updateScore(); 
-  updateMessage('resetGame', currentScore);
+  updateMessage('resetGame');
 }
 
 function updateScore() {
   const currentScore = snake.length - 1;
-  score.textContent = currentScore.toString().padStart(3, "0");
-  updateMessage('updateScore', currentScore);
+  const scoreElement = document.getElementById("score");
+
+  // Check if the score has incremented
+  if (parseInt(scoreElement.textContent) < currentScore) {
+    // Set the playback position to the beginning and play the "eat" sound
+    eat.currentTime = 0;
+    eat.play();
+  }
+
+  // Update the score on the page
+  scoreElement.textContent = currentScore.toString().padStart(3, "0");
+  updateMessage('updateScore');
 }
 
 function stopGame() {
@@ -207,12 +224,13 @@ function updateHighScore() {
   highScoreText.style.display = "block";
 }
 
-function updateMessage(condition, currentScore){
+function updateMessage(condition){
    switch(condition){ 
     case 'startGame':
-      message.textContent = 'grab apples and avoid running into yourself or walls';
+      message.textContent = 'eat apples. not borders';
       break;
     case 'resetGame':
+      message.textContent = "Joel's Super FUN Snake Game";
       break;
     case 'updateScore':
 
