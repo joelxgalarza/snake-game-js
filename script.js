@@ -107,11 +107,6 @@ function move() {
   }
 }
 
-// Test moving
-// setInterval(() => {
-//   move(); // Move first
-//   draw(); // Then draw again new position
-// }, 200);
 
 // Start game function
 function startGame() {
@@ -129,28 +124,30 @@ function startGame() {
 
 // Keypress event listener
 function handleKeyPress(event) {
-  if (
-    (!gameStarted && event.code === "Space") ||
-    (!gameStarted && event.key === " ")
-  ) {
+  if (!gameStarted && (event.code === "Space" || event.key === " ")) {
     startGame();
   } else {
     switch (event.key) {
-      case "ArrowUp":
-        direction = "up";
+      case 'ArrowUp':
+      case 'w':
+        direction = 'up';
         break;
-      case "ArrowDown":
-        direction = "down";
+      case 'ArrowRight':
+      case 'd':
+        direction = 'right';
         break;
-      case "ArrowLeft":
-        direction = "left";
+      case 'ArrowDown':
+      case 's':
+        direction = 'down';
         break;
-      case "ArrowRight":
-        direction = "right";
+      case 'ArrowLeft':
+      case 'a':
+        direction = 'left';
         break;
     }
   }
 }
+
 
 document.addEventListener("keydown", handleKeyPress);
 
@@ -228,12 +225,14 @@ function updateMessage(condition){
    switch(condition){ 
     case 'startGame':
       message.textContent = 'eat apples. not borders';
-      break;
+      break; 
     case 'resetGame':
       message.textContent = "Joel's Super FUN Snake Game";
       break;
     case 'updateScore':
-
+        if(currentScore === 3){
+          message.textContent = 'you are off to a good start :)';
+        }
       break;
    }
    
