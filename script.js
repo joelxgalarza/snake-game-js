@@ -10,7 +10,6 @@ const message = document.getElementById("message");
 //Define sound effects 
 const eat = new Audio("/aud/item-get.mp3");
 const song = new Audio("/aud/dearly-beloved.mp3");
-song.play();
 const gameStartSound = new Audio("/aud/game-start.mp3");
 // Define game variables
 const gridSize = 20;
@@ -114,6 +113,7 @@ function startGame() {
   instructionText.style.display = "none";
   logo.style.display = "none";
   gameStartSound.play();
+  song.play();
   gameInterval = setInterval(() => {
     move();
     checkCollision();
